@@ -1,5 +1,5 @@
 import tensorflow as tf
-import albumentations as A
+# import albumentations as A
 
 
 #根据图片路径读取一张图片
@@ -21,11 +21,11 @@ def normalize(input_image, input_mask):
     return input_image, input_mask
 
 
-transform = A.Compose([
-    A.RandomCrop(width=512, height=512),
-    A.HorizontalFlip(p=0.5), # 水平翻转翻转p为概率
-    A.RandomBrightnessContrast(p=0.2),
-])
+# transform = A.Compose([
+#     A.RandomCrop(width=512, height=512),
+#     A.HorizontalFlip(p=0.5), # 水平翻转翻转p为概率
+#     A.RandomBrightnessContrast(p=0.2),
+# ])
 
 
 #调用上面三个函数进行图像的读取与处理，返回待识别图像和分割图像文件

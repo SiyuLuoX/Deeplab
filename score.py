@@ -2,6 +2,7 @@ import numpy as np
 from sklearn.metrics import confusion_matrix
 from PIL import Image
 from os.path import join
+import matplotlib.pyplot as plt
 
 
 def fast_hist(label, pred, labels=[0,1,2,3,4]):
@@ -37,6 +38,23 @@ def pre_class_PA(hist):
         返回每类IoU组成的数组
 	'''
     return np.diag(hist) / hist.sum(axis=1)
+
+
+
+def plot_confusion_matrix(cm, classes):
+    plt.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+    plt.title('Confusion Matrix')
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+    plt.xlabel('Prediction')
+    plt.ylabel('Ground Truth')
+
+    for i in range(len(classes)):
+        for j in range(len(classes)):
+            plt.text(j, i, str(cm[i, j]), horizontalalignment="center", color="white" if cm[i, j] > cm.max() / 2.0 else "black")
+
 
 
 def compute_mIoU(gt_dir, pred_dir, test_imgs):#计算mIoU的函数
@@ -84,6 +102,12 @@ def compute_mIoU(gt_dir, pred_dir, test_imgs):#计算mIoU的函数
     print('===> mPA: ' + str(round(np.nanmean(mPA) * 100, 2)))#在所有验证集图像上求所有类别平均的mIoU值，计算时忽略NaN值
 
     print('===> PA:{} '.format(np.diag(hist).sum() /hist.sum())) # 计算PA
+
+    # 绘制混淆矩阵
+    plt.figure()
+    plot_confusion_matrix(hist, classes=np.array(['sandstone',"plant","mudstone","sky","conglomerate"], dtype=np.str))
+    plt.show()
+
     return mIoUs
 
 #三个路径分别为 ‘ground truth’,'自己的实验分割结果'，‘分割图片名称txt文件’

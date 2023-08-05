@@ -5,6 +5,7 @@ import cv2
 label = cv2.imread('./dataset/SegmentationClass/IMG0001_2_2.png')
 label = label.reshape(-1)
 pred = cv2.imread('./pred_dir/IMG0001_2_2.png')
+print('pred.shape:'+pred.shape)
 pred = pred.reshape(-1)
 
 out = confusion_matrix(label,pred,labels=[0,1,2,3,4])
